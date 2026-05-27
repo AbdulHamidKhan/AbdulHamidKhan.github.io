@@ -1,587 +1,576 @@
-from IPython.display import HTML
+import { useState, useEffect, useRef } from "react";
 
-html_content = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abdul Hamid Khan - AI Engineer in the Making</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+const NAV_LINKS = [
+  { label: "Home", id: "home" },
+  { label: "About", id: "about" },
+  { label: "Profile", id: "profile" },
+  { label: "Skills", id: "skills" },
+  { label: "Blog", id: "blog" },
+  { label: "Gallery", id: "gallery" },
+  { label: "Music", id: "music" },
+  { label: "Videos", id: "videos" },
+  { label: "Updates", id: "updates" },
+  { label: "Contact", id: "contact" },
+  { label: "CV", id: "cv" },
+];
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            overflow-x: hidden;
-        }
+const SKILLS = [
+  { icon: "🤖", title: "AI & Machine Learning", desc: "Neural networks, deep learning, exploring the frontier of AI" },
+  { icon: "🐍", title: "Python", desc: "FastAPI, ML libraries, scripting & automation" },
+  { icon: "✍️", title: "Writing", desc: "Technical articles, creative content & storytelling" },
+  { icon: "🌐", title: "Internet Research", desc: "Finding gems on the web, deep-diving into topics" },
+  { icon: "💻", title: "Web Development", desc: "HTML, CSS, JavaScript, React & Next.js" },
+  { icon: "📊", title: "Data Analysis", desc: "Finding patterns, insights & meaning in data" },
+];
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
+const BLOGS = [
+  {
+    date: "May 2026",
+    title: "Festival of Sacrifice — Eid al-Adha Reflections",
+    tag: "Faith & Society",
+    excerpt: "Eid al-Adha reminds us of the obedience of Prophet Ibrahim (A). But in modern times, are we truly honoring the spirit of sacrifice — or have we lost the plot?",
+    full: `EID-al-Adha reminds us the obedience of Prophet Ibrahim (A). Prophet Ibrahim in his dream was ordered to sacrifice his dearest possession — his only son, Ismail. When Prophet Ibrahim shared this test with his son, Ismail accepted without hesitation. When they were about to carry out the ultimate sacrifice, Allah intervened, recognizing their absolute devotion, and replaced Ismail with a ram at the final moment.
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
+"Their meat will not reach Allah, nor will their blood, but what reaches Him is piety from you." — (Surah Al Hajj, 22:37)
 
-        nav a {
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 600;
-            transition: all 0.3s;
-            position: relative;
-        }
+Modern Missteps:
 
-        nav a:hover {
-            color: #764ba2;
-            transform: translateY(-2px);
-        }
+🔴 The Show-off Mentality: Buying a sacrificial animal has turned into a status symbol — "cow competitions" on social media. This directly contradicts the core principle of piety, the exact opposite of Ibrahim's selflessness.
 
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #764ba2;
-            transition: width 0.3s;
-        }
+🔴 Animal Abuse: Islam strictly mandates treating animals with compassion (Ihsan). The Prophet (s) told of a woman destined for hellfire because she refused to feed a cat until it died (Sahih al-Bukhari 3318). Conversely, a man's sins were forgiven because he fetched water for a thirsty dog (Sahih al-Bukhari 6009).
 
-        nav a:hover::after {
-            width: 100%;
-        }
+🔴 Neglecting the Needy: The meat is traditionally divided into three equal parts — one-third for family, one-third for friends & neighbors, one-third for the poor. Treating Eid as a personal barbecue ignores the true purpose.
 
-        /* Sections */
-        section {
-            min-height: 100vh;
-            padding: 100px 2rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+🔴 Environmental Neglect: Leaving animal remains in the open clogs drainage and violates the Islamic principle: "Cleanliness is half of faith." (Sahih Muslim)
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s;
-        }
+🔴 Overconsumption: Eid al-Adha is meant for gratitude, not overeating. Excessive red meat leads to acute gastric issues and cardiovascular complications.
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+What if we had to sacrifice our dearest possession rather than an animal we purchase with money? If we can't be empathetic to innocent sacrificial animals, what message are we sending to the world?`,
+  },
+  {
+    date: "April 2026",
+    title: "My Journey into AI Engineering",
+    tag: "AI",
+    excerpt: "From curious student to aspiring AI Engineer — the tools, courses, and mindset shifts that changed everything for me.",
+    full: "Full blog post coming soon. I'm documenting my journey from a curious internet explorer to an aspiring AI Engineer — covering the resources, mistakes, and breakthroughs along the way.",
+  },
+  {
+    date: "March 2026",
+    title: "Hidden Internet Gems I've Discovered",
+    tag: "Internet",
+    excerpt: "A curated list of the most interesting websites, tools, and rabbit holes I've fallen into while exploring the internet.",
+    full: "Full blog post coming soon. The internet is vast and full of incredible hidden gems. Here's a growing list of the most fascinating websites, tools, and communities I've stumbled upon.",
+  },
+];
 
-        h1 {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            animation: slideIn 1s;
-        }
+// Spotify track IDs for the songs
+const SONGS = [
+  { title: "lovely", artist: "Billie Eilish & Khalid", id: "0u2P5u6lvoDfwTYjAADbn4" },
+  { title: "Let Me Down Slowly", artist: "Alec Benjamin", id: "2NZCRzT9E8ot7MBexZJMJ5" },
+  { title: "Victory", artist: "Two Steps From Hell", id: "2Kh43mkHgZWQTuQiF4Ys5B" },
+  { title: "Heal the World", artist: "Michael Jackson", id: "58L7SAkbOiCJOPY4HZiMHQ" },
+];
 
-        @keyframes slideIn {
-            from { transform: translateX(-100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+const UPDATES = [
+  { date: "May 2026", text: "🚀 Launched full-stack portfolio with React + FastAPI + Supabase!" },
+  { date: "April 2026", text: "📚 Completed deep learning fundamentals — building my first neural network." },
+  { date: "March 2026", text: "✍️ Published my first blog post: Festival of Sacrifice — Eid al-Adha Reflections." },
+  { date: "Feb 2026", text: "💻 Started learning Python FastAPI for backend development." },
+];
 
-        h2 {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 1.5rem;
-        }
+// ─── HOOKS ───────────────────────────────────────────────────────────────────
+function useInView(threshold = 0.12) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, visible];
+}
 
-        /* Home Section */
-        #home {
-            text-align: center;
-        }
+// ─── SHARED UI ────────────────────────────────────────────────────────────────
+function FadeIn({ children, delay = 0 }) {
+  const [ref, visible] = useInView();
+  return (
+    <div ref={ref} style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(36px)", transition: `opacity 0.7s ${delay}s, transform 0.7s ${delay}s` }}>
+      {children}
+    </div>
+  );
+}
 
-        .hero-text {
-            font-size: 1.5rem;
-            color: white;
-            margin: 2rem 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+function Card({ children, style = {} }) {
+  return (
+    <div style={{ background: "#fff", borderRadius: 20, padding: "2.5rem", boxShadow: "0 8px 40px rgba(102,126,234,0.13)", maxWidth: 1100, width: "100%", ...style }}>
+      {children}
+    </div>
+  );
+}
 
-        .tagline {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            font-style: italic;
-        }
+function SectionHeading({ children }) {
+  return (
+    <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem", background: "linear-gradient(135deg,#667eea,#764ba2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+      {children}
+    </h2>
+  );
+}
 
-        /* Skills */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
+function GradientBtn({ children, href, onClick, style = {} }) {
+  const s = { display: "inline-block", padding: "0.8rem 2rem", background: "linear-gradient(135deg,#667eea,#764ba2)", color: "#fff", borderRadius: 50, fontWeight: 700, textDecoration: "none", border: "none", cursor: "pointer", boxShadow: "0 4px 15px rgba(102,126,234,0.35)", transition: "transform 0.2s, box-shadow 0.2s", fontSize: "1rem", ...style };
+  if (href) return <a href={href} target="_blank" rel="noreferrer" style={s}>{children}</a>;
+  return <button onClick={onClick} style={s}>{children}</button>;
+}
 
-        .skill-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            color: white;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
+function Tag({ children }) {
+  return <span style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", color: "#fff", fontSize: "0.75rem", padding: "2px 12px", borderRadius: 20, fontWeight: 700 }}>{children}</span>;
+}
 
-        .skill-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Profile Section */
-        .profile-content {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .profile-image {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .profile-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        /* Contact */
-        .contact-links {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .contact-btn {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
-        }
-
-        /* Blog */
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .blog-card {
-            background: #f8f9fa;
-            padding: 2rem;
-            border-radius: 15px;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .blog-date {
-            color: #667eea;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Gallery */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .gallery-item {
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        /* Updates Section */
-        .update-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-left: 4px solid #667eea;
-            margin-bottom: 1rem;
-            border-radius: 5px;
-        }
-
-        .update-date {
-            color: #764ba2;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            text-align: center;
-            color: #667eea;
-        }
-
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .hero-text { font-size: 1.2rem; }
-            nav ul { gap: 1rem; }
-            .container { padding: 1.5rem; }
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#profile">Profile</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#images">Gallery</a></li>
-            <li><a href="#blog">Blog</a></li>
-            <li><a href="#updates">Updates</a></li>
-            <li><a href="#songs">Music</a></li>
-            <li><a href="#videos">Videos</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#cv">CV</a></li>
+// ─── NAVBAR ───────────────────────────────────────────────────────────────────
+function Navbar({ active, onNav }) {
+  return (
+    <nav style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "rgba(255,255,255,0.93)", backdropFilter: "blur(14px)", boxShadow: "0 2px 24px rgba(102,126,234,0.13)", padding: "0.65rem 1.5rem" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+        <span style={{ fontWeight: 900, fontSize: "1.3rem", background: "linear-gradient(135deg,#667eea,#764ba2)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>AHK</span>
+        <ul style={{ display: "flex", gap: "0.6rem", listStyle: "none", margin: 0, padding: 0, flexWrap: "wrap" }}>
+          {NAV_LINKS.map(l => (
+            <li key={l.id}>
+              <button onClick={() => onNav(l.id)} style={{ background: "none", border: "none", cursor: "pointer", fontWeight: active === l.id ? 700 : 500, color: active === l.id ? "#764ba2" : "#667eea", fontSize: "0.82rem", padding: "4px 7px", borderRadius: 6, borderBottom: active === l.id ? "2px solid #764ba2" : "2px solid transparent", transition: "all 0.2s" }}>
+                {l.label}
+              </button>
+            </li>
+          ))}
         </ul>
+      </div>
     </nav>
+  );
+}
 
-    <!-- Home Section -->
-    <section id="home">
-        <div class="float">
-            <h1 style="color: white; font-size: 4rem;">Abdul Hamid Khan</h1>
-            <p class="hero-text">Student | Internet Explorer | Writer</p>
-            <p class="tagline">On the journey to becoming an AI Engineer</p>
+// ─── HOME ─────────────────────────────────────────────────────────────────────
+function HomeSection() {
+  const [tick, setTick] = useState(0);
+  useEffect(() => { const t = setInterval(() => setTick(p => p + 1), 50); return () => clearInterval(t); }, []);
+  const y = Math.sin(tick * 0.04) * 18;
+  return (
+    <section id="home" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", background: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", padding: "6rem 2rem 2rem" }}>
+      <div style={{ transform: `translateY(${y}px)`, transition: "transform 0.05s linear" }}>
+        <div style={{ fontSize: "5rem", marginBottom: "1rem" }}>👨‍💻</div>
+        <h1 style={{ fontSize: "clamp(2.2rem,6vw,4rem)", color: "#fff", fontWeight: 900, marginBottom: "1rem", textShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>Abdul Hamid Khan</h1>
+        <p style={{ fontSize: "1.3rem", color: "rgba(255,255,255,0.92)", marginBottom: "0.5rem" }}>Student · Internet Explorer · Writer</p>
+        <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.78)", fontStyle: "italic", marginBottom: "2rem" }}>On the journey to becoming an AI Engineer 🚀</p>
+        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <GradientBtn href="https://github.com/AbdulHamidKhan" style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>💻 GitHub</GradientBtn>
+          <GradientBtn href="https://www.linkedin.com/in/abdul-hamid-khan-b94112395" style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>💼 LinkedIn</GradientBtn>
+          <GradientBtn href="https://www.youtube.com/@AbdulHamidKhan-1" style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(8px)" }}>▶️ YouTube</GradientBtn>
         </div>
+      </div>
     </section>
+  );
+}
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p style="line-height: 1.8; font-size: 1.1rem;">
-                Hello! I'm Abdul Hamid Khan, a passionate student with an insatiable curiosity for exploring the vast world of the internet.
-                I love writing and sharing my thoughts on various topics that fascinate me. Currently, I'm on an exciting journey to become
-                an AI Engineer, diving deep into machine learning, neural networks, and the endless possibilities of artificial intelligence.
-            </p>
-            <p style="line-height: 1.8; font-size: 1.1rem; margin-top: 1rem;">
-                When I'm not coding or studying, you'll find me exploring new technologies, writing blog posts, listening to music,
-                or watching educational videos. I believe in continuous learning and sharing knowledge with the community.
-            </p>
-        </div>
+// ─── ABOUT ────────────────────────────────────────────────────────────────────
+function AboutSection() {
+  return (
+    <section id="about" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center", background: "#f5f4ff" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>About Me</SectionHeading>
+          <p style={{ lineHeight: 1.9, fontSize: "1.08rem", color: "#444", marginBottom: "1rem" }}>
+            Hello! I'm <strong>Abdul Hamid Khan</strong>, a passionate student with an insatiable curiosity for exploring the vast world of the internet.
+            I love writing and sharing my thoughts — from reflections on faith and society to cutting-edge AI research.
+          </p>
+          <p style={{ lineHeight: 1.9, fontSize: "1.08rem", color: "#444", marginBottom: "1rem" }}>
+            Currently on an exciting journey to become an <strong>AI Engineer</strong>, diving deep into machine learning, neural networks, Python, and the endless possibilities of artificial intelligence.
+          </p>
+          <p style={{ lineHeight: 1.9, fontSize: "1.08rem", color: "#444" }}>
+            When I'm not studying, you'll find me exploring new technologies, writing blog posts, listening to music, or watching educational videos. I believe in continuous learning and sharing knowledge.
+          </p>
+        </Card>
+      </FadeIn>
     </section>
+  );
+}
 
-    <!-- Profile Section -->
-    <section id="profile">
-        <div class="container">
-            <h2>Profile</h2>
-            <div class="profile-content">
-                <div class="profile-image">👨‍💻</div>
-                <div class="profile-text">
-                    <h3 style="color: #667eea; margin-bottom: 1rem;">Abdul Hamid Khan</h3>
-                    <p><strong>Location:</strong> Madaripur, Dhaka Division, Bangladesh</p>
-                    <p><strong>Education:</strong> Student</p>
-                    <p><strong>Interests:</strong> AI/ML, Web Development, Writing, Music</p>
-                    <p><strong>Goal:</strong> Becoming an AI Engineer</p>
-                    <p style="margin-top: 1rem;">
-                        <a href="https://github.com/AbdulHamidKhan/AbdulHamidKhan.git" target="_blank"
-                           style="color: #667eea; text-decoration: none; font-weight: 600;">
-                            🔗 GitHub Profile
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="container">
-            <h2>Skills & Expertise</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">🤖</div>
-                    <h3>AI & Machine Learning</h3>
-                    <p>Exploring neural networks and deep learning</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">💻</div>
-                    <h3>Programming</h3>
-                    <p>Python, Web Development</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">✍️</div>
-                    <h3>Writing</h3>
-                    <p>Technical & creative content</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🌐</div>
-                    <h3>Internet Explorer</h3>
-                    <p>Research & discovery</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">📊</div>
-                    <h3>Data Analysis</h3>
-                    <p>Understanding patterns & insights</p>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🎯</div>
-                    <h3>Problem Solving</h3>
-                    <p>Creative & analytical thinking</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Images/Gallery Section -->
-    <section id="images">
-        <div class="container">
-            <h2>Gallery</h2>
-            <p style="margin-bottom: 2rem; color: #666;">A visual journey through my interests and work</p>
-            <div class="gallery-grid">
-                <div class="gallery-item">🎨</div>
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">💡</div>
-                <div class="gallery-item">🚀</div>
-                <div class="gallery-item">🎭</div>
-                <div class="gallery-item">🌟</div>
-            </div>
-            <p style="margin-top: 2rem; color: #666; text-align: center; font-style: italic;">
-                Upload your images here to showcase your projects and experiences
-            </p>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section id="blog">
-        <div class="container">
-            <h2>Blog</h2>
-            <p style="margin-bottom: 2rem; color: #666;">Thoughts, ideas, and explorations</p>
-            <div class="blog-grid">
-                <div class="blog-card">
-                    <div class="blog-date">Coming Soon</div>
-                    <h3 style="color: #667eea; margin-bottom: 0.5rem;">My Journey into AI</h3>
-                    <p>Exploring the fascinating world of artificial intelligence and what it means for the future...</p>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-date">Coming Soon</div>
-                    <h3 style="color: #667eea; margin-bottom: 0.5rem;">The Art of Learning</h3>
-                    <p>Sharing my experiences and techniques for effective self-learning in technology...</p>
-                </div>
-                <div class="blog-card">
-                    <div class="blog-date">Coming Soon</div>
-                    <h3 style="color: #667eea; margin-bottom: 0.5rem;">Internet Discoveries</h3>
-                    <p>Interesting websites, tools, and resources I've discovered during my internet explorations...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Updates Section -->
-    <section id="updates">
-        <div class="container">
-            <h2>Latest Updates</h2>
-            <div class="update-item">
-                <div class="update-date">December 2025</div>
-                <p>🎉 Launched my personal portfolio website! Excited to share my journey with the world.</p>
-            </div>
-            <div class="update-item">
-                <div class="update-date">Ongoing</div>
-                <p>📚 Deep diving into machine learning fundamentals and building exciting AI projects.</p>
-            </div>
-            <div class="update-item">
-                <div class="update-date">Ongoing</div>
-                <p>✍️ Working on new blog posts about AI, technology, and my learning experiences.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Songs Section -->
-    <section id="songs">
-        <div class="container">
-            <h2>Music I Love</h2>
-            <p style="margin-bottom: 2rem; color: #666;">Music that inspires my creativity</p>
-            <div style="text-align: center; padding: 3rem; background: #f8f9fa; border-radius: 15px;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">🎵</div>
-                <p style="color: #667eea; font-size: 1.2rem;">Your favorite tracks and playlists</p>
-                <p style="color: #666; margin-top: 1rem;">Add your Spotify/YouTube links or embed players here</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Videos Section -->
-    <section id="videos">
-        <div class="container">
-            <h2>Videos & Content</h2>
-            <p style="margin-bottom: 2rem; color: #666;">Educational and inspiring content</p>
-            <div style="text-align: center; padding: 3rem; background: #f8f9fa; border-radius: 15px;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">🎬</div>
-                <p style="color: #667eea; font-size: 1.2rem;">Learning resources and favorite videos</p>
-                <p style="color: #666; margin-top: 1rem;">Embed your YouTube videos or create video content here</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <p style="margin-bottom: 2rem; color: #666; text-align: center;">
-                Let's connect! I'm always excited to discuss AI, technology, or collaborate on interesting projects.
-            </p>
-            <div class="contact-links">
-                <a href="https://www.linkedin.com/in/abdul-hamid-khan-b94112395" target="_blank" class="contact-btn">
-                    💼 LinkedIn
-                </a>
-                <a href="https://github.com/AbdulHamidKhan/AbdulHamidKhan.git" target="_blank" class="contact-btn">
-                    💻 GitHub
-                </a>
-                <a href="mailto:your.email@example.com" class="contact-btn">
-                    📧 Email
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- CV Section -->
-    <section id="cv">
-        <div class="container">
-            <h2>Curriculum Vitae</h2>
-            <div style="text-align: center; padding: 2rem;">
-                <div style="font-size: 4rem; margin-bottom: 1rem;">📄</div>
-                <h3 style="color: #667eea; margin-bottom: 1rem;">Abdul Hamid Khan</h3>
-                <p style="color: #666; margin-bottom: 2rem;">Aspiring AI Engineer | Student | Writer</p>
-                <a href="#" class="contact-btn" style="display: inline-block;">
-                    ⬇️ Download CV (PDF)
-                </a>
-                <p style="color: #666; margin-top: 2rem; font-style: italic;">
-                    Upload your CV/Resume PDF here for visitors to download
+// ─── PROFILE ─────────────────────────────────────────────────────────────────
+function ProfileSection() {
+  const items = [
+    ["📍 Location", "Gopālganj, Dhaka Division, Bangladesh"],
+    ["🎓 Status", "Student"],
+    ["🎯 Goal", "Becoming an AI Engineer"],
+    ["❤️ Interests", "AI/ML, Writing, Web Dev, Music, Internet"],
+    ["📧 Email", "abdul.hamid.khan.100100@gmail.com"],
+    ["💻 GitHub", "AbdulHamidKhan"],
+    ["💼 LinkedIn", "abdul-hamid-khan-b94112395"],
+    ["▶️ YouTube", "@AbdulHamidKhan-1"],
+  ];
+  return (
+    <section id="profile" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Profile</SectionHeading>
+          <div style={{ display: "flex", gap: "2.5rem", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ width: 160, height: 160, borderRadius: "50%", flexShrink: 0, background: "linear-gradient(135deg,#667eea,#764ba2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "4rem", boxShadow: "0 8px 30px rgba(102,126,234,0.4)" }}>👨‍💻</div>
+            <div style={{ flex: 1, minWidth: 240 }}>
+              <h3 style={{ color: "#667eea", fontSize: "1.5rem", marginBottom: "1.2rem" }}>Abdul Hamid Khan</h3>
+              {items.map(([k, v]) => (
+                <p key={k} style={{ marginBottom: "0.55rem", fontSize: "0.97rem", color: "#555" }}>
+                  <strong style={{ color: "#764ba2" }}>{k}:</strong> {v}
                 </p>
+              ))}
             </div>
-        </div>
+          </div>
+        </Card>
+      </FadeIn>
     </section>
+  );
+}
 
-    <!-- Footer with Copyright -->
-    <footer>
-        <p style="margin-bottom: 0.5rem;">© 2025 Abdul Hamid Khan. All Rights Reserved.</p>
-        <p style="font-size: 0.9rem; color: #764ba2;">
-            This website and its content are licensed under
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"
-               style="color: #667eea; text-decoration: none; font-weight: 600;">
-                CC BY-NC-SA 4.0
-            </a>
-        </p>
-        <p style="font-size: 0.9rem; margin-top: 1rem;">
-            Made with 💜 and passion for technology
-        </p>
+// ─── SKILLS ───────────────────────────────────────────────────────────────────
+function SkillsSection() {
+  return (
+    <section id="skills" style={{ padding: "6rem 2rem", background: "#f5f4ff", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Skills & Expertise</SectionHeading>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: "1.5rem" }}>
+            {SKILLS.map((s, i) => (
+              <FadeIn key={s.title} delay={i * 0.08}>
+                <div style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", borderRadius: 16, padding: "2rem", color: "#fff", textAlign: "center", cursor: "pointer", transition: "transform 0.25s, box-shadow 0.25s", boxShadow: "0 4px 20px rgba(102,126,234,0.25)" }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-10px) scale(1.04)"; e.currentTarget.style.boxShadow = "0 16px 40px rgba(102,126,234,0.45)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 20px rgba(102,126,234,0.25)"; }}>
+                  <div style={{ fontSize: "2.8rem", marginBottom: "0.8rem" }}>{s.icon}</div>
+                  <h3 style={{ fontSize: "1.05rem", marginBottom: "0.5rem" }}>{s.title}</h3>
+                  <p style={{ fontSize: "0.88rem", opacity: 0.88 }}>{s.desc}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── BLOG ─────────────────────────────────────────────────────────────────────
+function BlogSection() {
+  const [open, setOpen] = useState(null);
+  return (
+    <section id="blog" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Blog</SectionHeading>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>Thoughts, ideas & explorations — written by Abdul Hamid Khan</p>
+
+          {open !== null ? (
+            <div>
+              <button onClick={() => setOpen(null)} style={{ background: "none", border: "none", color: "#667eea", cursor: "pointer", fontWeight: 700, fontSize: "1rem", marginBottom: "1.5rem", padding: 0 }}>← Back to Blogs</button>
+              <Tag>{BLOGS[open].tag}</Tag>
+              <p style={{ color: "#667eea", fontSize: "0.85rem", margin: "0.8rem 0 0.4rem" }}>{BLOGS[open].date}</p>
+              <h2 style={{ color: "#333", marginBottom: "1.5rem", fontSize: "1.6rem" }}>{BLOGS[open].title}</h2>
+              <div style={{ lineHeight: 2, color: "#444", fontSize: "1.02rem", whiteSpace: "pre-line" }}>{BLOGS[open].full}</div>
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "1.5rem" }}>
+              {BLOGS.map((b, i) => (
+                <FadeIn key={b.title} delay={i * 0.1}>
+                  <div style={{ background: "#f8f7ff", borderRadius: 16, padding: "1.8rem", borderLeft: "4px solid #667eea", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s", boxShadow: "0 2px 12px rgba(102,126,234,0.08)" }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(102,126,234,0.18)"; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 2px 12px rgba(102,126,234,0.08)"; }}
+                    onClick={() => setOpen(i)}>
+                    <Tag>{b.tag}</Tag>
+                    <p style={{ color: "#667eea", fontSize: "0.85rem", margin: "0.8rem 0 0.4rem" }}>{b.date}</p>
+                    <h3 style={{ color: "#333", marginBottom: "0.6rem", fontSize: "1.08rem" }}>{b.title}</h3>
+                    <p style={{ color: "#666", fontSize: "0.92rem", lineHeight: 1.7 }}>{b.excerpt}</p>
+                    <p style={{ color: "#764ba2", fontWeight: 700, marginTop: "1rem", fontSize: "0.9rem" }}>Read More →</p>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          )}
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── GALLERY ──────────────────────────────────────────────────────────────────
+function GallerySection() {
+  const [imgError, setImgError] = useState(false);
+  const driveId = "18iG3u1VlP2Ss4k8GFfvsBTuMlm7JdyZT";
+  const directUrl = `https://drive.google.com/uc?export=view&id=${driveId}`;
+  const placeholders = ["🤖","🌐","✍️","🚀","💡","🎭","📸","🎨"];
+
+  return (
+    <section id="gallery" style={{ padding: "6rem 2rem", background: "#f5f4ff", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Gallery</SectionHeading>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>A visual journey through my interests and work</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: "1rem" }}>
+            {/* Your Google Drive image */}
+            <div style={{ aspectRatio: "1", borderRadius: 16, overflow: "hidden", boxShadow: "0 4px 16px rgba(102,126,234,0.2)", gridColumn: "span 2" }}>
+              {!imgError ? (
+                <img src={directUrl} alt="Abdul Hamid Khan" onError={() => setImgError(true)}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg,#667eea,#764ba2)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#fff", padding: "1rem", textAlign: "center" }}>
+                  <div style={{ fontSize: "3rem", marginBottom: "0.5rem" }}>🖼️</div>
+                  <p style={{ fontSize: "0.85rem", opacity: 0.9 }}>Make your Google Drive image public to display it here</p>
+                  <a href="https://drive.google.com/file/d/18iG3u1VlP2Ss4k8GFfvsBTuMlm7JdyZT/view" target="_blank" rel="noreferrer" style={{ color: "#fff", fontSize: "0.8rem", marginTop: "0.5rem" }}>View on Drive →</a>
+                </div>
+              )}
+            </div>
+            {placeholders.map((ic, i) => (
+              <div key={i} style={{ aspectRatio: "1", background: `linear-gradient(${135 + i * 25}deg,#667eea,#764ba2)`, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.5rem", cursor: "pointer", transition: "transform 0.2s, box-shadow 0.2s", boxShadow: "0 4px 16px rgba(102,126,234,0.2)" }}
+                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(102,126,234,0.4)"; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 4px 16px rgba(102,126,234,0.2)"; }}>
+                {ic}
+              </div>
+            ))}
+          </div>
+          <p style={{ color: "#aaa", textAlign: "center", marginTop: "2rem", fontStyle: "italic", fontSize: "0.88rem" }}>
+            💡 To add more images: Upload to Imgur → copy direct link → share it with me and I'll add them instantly
+          </p>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── MUSIC ────────────────────────────────────────────────────────────────────
+function MusicSection() {
+  const [active, setActive] = useState(0);
+  return (
+    <section id="music" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Music I Love 🎵</SectionHeading>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>Songs that fuel my creativity and focus</p>
+          <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap", marginBottom: "1.5rem" }}>
+            {SONGS.map((s, i) => (
+              <button key={s.id} onClick={() => setActive(i)} style={{ padding: "0.5rem 1.2rem", borderRadius: 50, border: "none", cursor: "pointer", fontWeight: 600, fontSize: "0.88rem", background: active === i ? "linear-gradient(135deg,#667eea,#764ba2)" : "#f0f0f8", color: active === i ? "#fff" : "#667eea", transition: "all 0.2s" }}>
+                {s.title}
+              </button>
+            ))}
+          </div>
+          <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: "0 4px 20px rgba(102,126,234,0.15)" }}>
+            <iframe
+              key={SONGS[active].id}
+              style={{ borderRadius: 12 }}
+              src={`https://open.spotify.com/embed/track/${SONGS[active].id}?utm_source=generator&theme=0`}
+              width="100%" height="152" frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy" title={SONGS[active].title}
+            />
+          </div>
+          <p style={{ color: "#aaa", fontSize: "0.85rem", marginTop: "1rem", textAlign: "center" }}>
+            🎵 {SONGS[active].title} — {SONGS[active].artist}
+          </p>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── VIDEOS ───────────────────────────────────────────────────────────────────
+function VideosSection() {
+  return (
+    <section id="videos" style={{ padding: "6rem 2rem", background: "#f5f4ff", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Videos & Content 🎬</SectionHeading>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>Check out my YouTube channel and content I recommend</p>
+          <div style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", borderRadius: 20, padding: "2rem", color: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", marginBottom: "2rem" }}>
+            <div>
+              <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>▶️</div>
+              <h3 style={{ fontSize: "1.3rem", marginBottom: "0.3rem" }}>Abdul Hamid Khan</h3>
+              <p style={{ opacity: 0.85, fontSize: "0.95rem" }}>My YouTube Channel — AI, learning & more</p>
+            </div>
+            <GradientBtn href="https://www.youtube.com/@AbdulHamidKhan-1" style={{ background: "rgba(255,255,255,0.25)", backdropFilter: "blur(8px)" }}>
+              Visit Channel →
+            </GradientBtn>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "2rem" }}>
+            {[
+              { title: "Introduction to AI & Machine Learning", id: "ad79nYk2keg", desc: "A beginner-friendly intro to AI concepts." },
+              { title: "Python for AI Engineers", id: "LHBE6Q9XlzI", desc: "Python essentials every AI engineer should know." },
+            ].map(v => (
+              <div key={v.id}>
+                <h3 style={{ color: "#667eea", marginBottom: "0.8rem", fontSize: "1rem" }}>{v.title}</h3>
+                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, overflow: "hidden", borderRadius: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.12)" }}>
+                  <iframe style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    src={`https://www.youtube.com/embed/${v.id}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen title={v.title} />
+                </div>
+                <p style={{ color: "#888", fontSize: "0.88rem", marginTop: "0.5rem" }}>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p style={{ color: "#aaa", fontSize: "0.85rem", marginTop: "2rem", textAlign: "center", fontStyle: "italic" }}>
+            💡 Share your YouTube video links with me and I'll embed them here instantly!
+          </p>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── UPDATES ─────────────────────────────────────────────────────────────────
+function UpdatesSection() {
+  return (
+    <section id="updates" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Latest Updates</SectionHeading>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {UPDATES.map((u, i) => (
+              <FadeIn key={i} delay={i * 0.08}>
+                <div style={{ background: "#f8f7ff", borderLeft: "4px solid #667eea", padding: "1.2rem 1.5rem", borderRadius: "0 12px 12px 0" }}>
+                  <p style={{ color: "#764ba2", fontWeight: 700, fontSize: "0.9rem", marginBottom: "0.3rem" }}>{u.date}</p>
+                  <p style={{ color: "#444", fontSize: "1rem" }}>{u.text}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── CONTACT ──────────────────────────────────────────────────────────────────
+function ContactSection() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.email || !form.message) { setError("Please fill in all fields."); return; }
+    setError(""); setSending(true);
+    // In production this calls your FastAPI endpoint:
+    // await fetch("https://your-api.render.com/api/contact", { method:"POST", body: JSON.stringify(form) })
+    await new Promise(r => setTimeout(r, 1400));
+    setSending(false); setSent(true);
+  };
+
+  const inp = { width: "100%", padding: "0.9rem 1.2rem", borderRadius: 12, border: "2px solid #e0e0f0", fontSize: "1rem", outline: "none", fontFamily: "inherit", transition: "border 0.2s", boxSizing: "border-box" };
+
+  return (
+    <section id="contact" style={{ padding: "6rem 2rem", background: "#f5f4ff", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card>
+          <SectionHeading>Get In Touch</SectionHeading>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>Let's connect! Messages go directly to <strong>abdul.hamid.khan.100100@gmail.com</strong></p>
+          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
+            <div style={{ flex: 1, minWidth: 260 }}>
+              {sent ? (
+                <div style={{ textAlign: "center", padding: "3rem", background: "#f0f0ff", borderRadius: 16 }}>
+                  <div style={{ fontSize: "4rem" }}>🎉</div>
+                  <h3 style={{ color: "#667eea", marginTop: "1rem" }}>Message Sent!</h3>
+                  <p style={{ color: "#888" }}>Thanks for reaching out. Abdul will get back to you soon!</p>
+                  <GradientBtn onClick={() => { setSent(false); setForm({ name: "", email: "", message: "" }); }} style={{ marginTop: "1rem" }}>Send Another</GradientBtn>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+                  <input style={inp} placeholder="Your Name" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} onFocus={e => e.target.style.border = "2px solid #667eea"} onBlur={e => e.target.style.border = "2px solid #e0e0f0"} />
+                  <input style={inp} placeholder="Your Email" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} onFocus={e => e.target.style.border = "2px solid #667eea"} onBlur={e => e.target.style.border = "2px solid #e0e0f0"} />
+                  <textarea style={{ ...inp, minHeight: 130, resize: "vertical" }} placeholder="Your Message" value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} onFocus={e => e.target.style.border = "2px solid #667eea"} onBlur={e => e.target.style.border = "2px solid #e0e0f0"} />
+                  <GradientBtn onClick={handleSubmit}>{sending ? "Sending... ⏳" : "Send Message 🚀"}</GradientBtn>
+                </div>
+              )}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
+              <GradientBtn href="https://www.linkedin.com/in/abdul-hamid-khan-b94112395">💼 LinkedIn</GradientBtn>
+              <GradientBtn href="https://github.com/AbdulHamidKhan">💻 GitHub</GradientBtn>
+              <GradientBtn href="https://www.youtube.com/@AbdulHamidKhan-1">▶️ YouTube</GradientBtn>
+              <GradientBtn href="mailto:abdul.hamid.khan.100100@gmail.com">📧 Email</GradientBtn>
+            </div>
+          </div>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── CV ───────────────────────────────────────────────────────────────────────
+function CVSection() {
+  return (
+    <section id="cv" style={{ padding: "6rem 2rem", display: "flex", justifyContent: "center" }}>
+      <FadeIn>
+        <Card style={{ textAlign: "center" }}>
+          <SectionHeading>Curriculum Vitae</SectionHeading>
+          <div style={{ fontSize: "5rem", marginBottom: "1rem" }}>📄</div>
+          <h3 style={{ color: "#667eea", fontSize: "1.4rem", marginBottom: "0.5rem" }}>Abdul Hamid Khan</h3>
+          <p style={{ color: "#888", marginBottom: "2rem" }}>Aspiring AI Engineer · Student · Writer</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: "1rem", maxWidth: 650, margin: "0 auto 2rem" }}>
+            {[["🎓","Education","Student, pursuing AI Engineering"],["✍️","Writing","Technical & creative content"],["🤖","AI & ML","Neural networks, deep learning"],["💻","Dev","Python, Web Development"],["🌐","Internet","Research & exploration"],["📧","Contact","abdul.hamid.khan.100100@gmail.com"]].map(([ic,t,d]) => (
+              <div key={t} style={{ background: "#f8f7ff", borderRadius: 12, padding: "1.2rem" }}>
+                <div style={{ fontSize: "2rem" }}>{ic}</div>
+                <h4 style={{ color: "#764ba2", margin: "0.4rem 0 0.2rem" }}>{t}</h4>
+                <p style={{ color: "#888", fontSize: "0.82rem" }}>{d}</p>
+              </div>
+            ))}
+          </div>
+          <GradientBtn href="#">⬇️ Download CV (PDF)</GradientBtn>
+          <p style={{ color: "#ccc", fontSize: "0.85rem", marginTop: "1rem", fontStyle: "italic" }}>Share your CV PDF link with me and I'll connect the download button</p>
+        </Card>
+      </FadeIn>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+function Footer() {
+  return (
+    <footer style={{ background: "linear-gradient(135deg,#667eea,#764ba2)", color: "#fff", textAlign: "center", padding: "2.5rem 1rem" }}>
+      <p style={{ fontWeight: 700, fontSize: "1.2rem", marginBottom: "0.5rem" }}>Abdul Hamid Khan</p>
+      <p style={{ opacity: 0.8, marginBottom: "0.5rem" }}>© 2026 · All Rights Reserved</p>
+      <p style={{ opacity: 0.7, fontSize: "0.9rem" }}>
+        Licensed under{" "}
+        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer" style={{ color: "#fff", fontWeight: 700 }}>CC BY-NC-SA 4.0</a>
+      </p>
+      <p style={{ opacity: 0.6, fontSize: "0.85rem", marginTop: "1rem" }}>Made with 💜 · Powered by Next.js + FastAPI + Supabase</p>
     </footer>
+  );
+}
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
+// ─── APP ─────────────────────────────────────────────────────────────────────
+export default function App() {
+  const [active, setActive] = useState("home");
+  const onNav = id => {
+    setActive(id);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    const handler = () => {
+      const sections = NAV_LINKS.map(l => document.getElementById(l.id)).filter(Boolean);
+      const scrollY = window.scrollY + 120;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        if (sections[i].offsetTop <= scrollY) { setActive(NAV_LINKS[i].id); break; }
+      }
+    };
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
-        // Add scroll animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
-
-        document.querySelectorAll('.container').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s ease-out';
-            observer.observe(el);
-        });
-    </script>
-</body>
-</html>
-"""
-
-HTML(html_content)
+  return (
+    <div style={{ fontFamily: "'Segoe UI',Tahoma,Geneva,Verdana,sans-serif", overflowX: "hidden" }}>
+      <Navbar active={active} onNav={onNav} />
+      <HomeSection />
+      <AboutSection />
+      <ProfileSection />
+      <SkillsSection />
+      <BlogSection />
+      <GallerySection />
+      <MusicSection />
+      <VideosSection />
+      <UpdatesSection />
+      <ContactSection />
+      <CVSection />
+      <Footer />
+    </div>
+  );
+}
