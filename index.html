@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abdul Hamid Khan - Premium Multi-Theme Portfolio</title>
-  
-  <!-- Referrer Policy Fix to resolve YouTube Error 153 in embed frames -->
-  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Abdul Hamid Khan</title>
   
   <!-- Inter & Mono Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +34,7 @@
               muted: '#a89d9a',
               accent: '#ff4500'
             },
-            // Volcanic Tan / Beige (Light Theme Palette based on image_3f45c6.jpg)
+            // Volcanic Tan / Beige (Light Theme Palette)
             magma: {
               DEFAULT: '#f2ece0',
               card: '#faf7f2',
@@ -60,7 +57,7 @@
       transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease;
     }
 
-    /* Background Vertical Grid Lines - Replicating image_3fb39b.jpg and image_3f45c6.jpg */
+    /* Background Vertical Grid Lines */
     .bg-grid-lines {
       background-size: 8.333333% 100%;
       background-image: linear-gradient(to right, rgba(110, 94, 90, 0.04) 1px, transparent 1px);
@@ -85,7 +82,7 @@
       border-radius: 99px;
     }
 
-    /* CSS Keyframes for the dynamic, highly requested Half-Aqua Half-Red Igniting Fire Glow */
+    /* CSS Keyframes for the dynamic Half-Aqua Half-Red Igniting Fire Glow */
     @keyframes ignite-fire {
       0% {
         transform: rotate(0deg) scale(0.97);
@@ -104,7 +101,7 @@
       animation: ignite-fire 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Rhombus Animation on Inner Pages - Matching image_3fb6bd.jpg requirements */
+    /* Rhombus Animation on Inner Pages */
     @keyframes spin-rhombus {
       0%, 100% { transform: rotate(45deg) scale(1); }
       50% { transform: rotate(225deg) scale(1.15); }
@@ -141,12 +138,12 @@
     }
   </script>
 </head>
-<body class="bg-magma text-magma-muted dark:bg-obsidian dark:text-obsidian-muted font-sans min-height-screen relative overflow-x-hidden antialiased">
+<body class="bg-magma text-magma-muted dark:bg-obsidian dark:text-obsidian-muted font-sans min-height-screen relative overflow-x-hidden antialiased font-light">
   
   <!-- Live Interactive Particles Canvas Background -->
   <canvas id="volcanoCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
   
-  <!-- High Fidelity Grid Overlays (As requested based on image_3f45c6.jpg) -->
+  <!-- High Fidelity Grid Overlays -->
   <div class="fixed inset-0 pointer-events-none z-0 bg-grid-lines opacity-100"></div>
 
   <!-- Ambient background lighting -->
@@ -211,41 +208,12 @@
   <!-- MAIN CONTAINER STRUCTURE -->
   <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
 
-    <!-- PAGE: HOME -->
+    <!-- PAGE: HOME (Layout adjusted dynamically: Picture is on the RIGHT side, Typography on the LEFT side) -->
     <section class="page-section hidden animate-fade-in" id="page-home">
       <div class="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
         
-        <!-- Left Side Column: Portrait Picture on Left (matching image_3f45c6.jpg setup) -->
-        <div class="lg:col-span-5 flex justify-center items-center relative py-6 lg:py-0 order-2 lg:order-1">
-          <div class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center p-6 bg-magma-card dark:bg-obsidian-card border border-magma-border dark:border-obsidian-border rounded-[36px] shadow-2xl overflow-hidden group">
-            
-            <!-- Light gradient accent background inside frame -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-orange-500/10 to-transparent pointer-events-none"></div>
-            
-            <!-- Igniting Half Aqua / Half Red Glow Ring Container (conic-gradient with dynamic fire rotation & flicker) -->
-            <div class="absolute w-[82%] h-[82%] rounded-full p-[3px] flex items-center justify-center animate-ignite-fire" 
-                 style="background: conic-gradient(from 0deg, #06b6d4 0%, #22d3ee 45%, #ef4444 55%, #f87171 100%);">
-              <!-- Inner mask to create a perfectly clean and sharp thin ring -->
-              <div class="w-full h-full rounded-full bg-magma-card dark:bg-obsidian-card"></div>
-            </div>
-            
-            <!-- Target Portrait Image -->
-            <img 
-              src="https://lh3.googleusercontent.com/d/1tzW91p8mXMZ68eqKFbhiwXV_wAaSUfTK" 
-              alt="Abdul Hamid Khan Portrait" 
-              class="relative z-10 w-[74%] h-[74%] rounded-full object-cover border-4 border-magma dark:border-obsidian shadow-2xl transition-transform duration-500 group-hover:scale-105"
-              onerror="handleHomepageImgError(this)"
-            />
-
-            <!-- Decorative mini subtitle tag (updated quote replacing label from image_3f45c6.jpg) -->
-            <div class="absolute bottom-4 left-6 right-6 text-center font-mono text-[8px] md:text-[9px] tracking-wide text-magma-muted dark:text-obsidian-muted uppercase opacity-90 leading-snug">
-              "Men go to far greater lengths to avoid what they fear than to obtain what they desire."
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Side Column: Typography Details directly duplicating visual styling of image_3fb39b.jpg -->
-        <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left gap-5 order-1 lg:order-2">
+        <!-- Left Side Column: Typography Details directly duplicating visual styling of image_3fb39b.jpg -->
+        <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left gap-5 order-1 lg:order-1">
           
           <div class="flex items-center gap-3">
             <span class="w-8 h-[2px] bg-red-500"></span>
@@ -293,10 +261,43 @@
           </div>
 
         </div>
+
+        <!-- Right Side Column: Portrait Picture on RIGHT (Swapped with fire burning simulation overlays) -->
+        <div class="lg:col-span-5 flex justify-center items-center relative py-6 lg:py-0 order-2 lg:order-2">
+          <div id="portraitFlameContainer" class="relative w-72 h-72 md:w-96 md:h-96 flex items-center justify-center p-6 bg-magma-card dark:bg-obsidian-card border border-magma-border dark:border-obsidian-border rounded-[36px] shadow-2xl overflow-hidden group cursor-pointer">
+            
+            <!-- Light gradient accent background inside frame -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-orange-500/10 to-transparent pointer-events-none"></div>
+            
+            <!-- Igniting Half Aqua / Half Red Glow Ring Container (conic-gradient with dynamic fire rotation & flicker) -->
+            <div class="absolute w-[82%] h-[82%] rounded-full p-[3px] flex items-center justify-center animate-ignite-fire" 
+                 style="background: conic-gradient(from 0deg, #06b6d4 0%, #22d3ee 45%, #ef4444 55%, #f87171 100%);">
+              <!-- Inner mask to create a perfectly clean and sharp thin ring -->
+              <div class="w-full h-full rounded-full bg-magma-card dark:bg-obsidian-card"></div>
+            </div>
+            
+            <!-- Target Portrait Image -->
+            <img 
+              src="https://lh3.googleusercontent.com/d/1tzW91p8mXMZ68eqKFbhiwXV_wAaSUfTK" 
+              alt="Abdul Hamid Khan Portrait" 
+              class="relative z-10 w-[74%] h-[74%] rounded-full object-cover border-4 border-magma dark:border-obsidian shadow-2xl transition-transform duration-500 group-hover:scale-105"
+              onerror="handleHomepageImgError(this)"
+            />
+
+            <!-- High-Fidelity Interactive Burning Fire Simulation Canvas (positioned on top of the image) -->
+            <canvas id="portraitFireCanvas" class="absolute z-20 pointer-events-none rounded-full w-[74%] h-[74%] opacity-90 transition-opacity duration-300"></canvas>
+
+            <!-- Decorative mini subtitle tag -->
+            <div class="absolute bottom-4 left-6 right-6 text-center font-mono text-[8px] md:text-[9px] tracking-wide text-magma-muted dark:text-obsidian-muted uppercase opacity-90 leading-snug">
+              "Men go to far greater lengths to avoid what they fear than to obtain what they desire."
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- INNER PAGES LAYOUT TEMPLATE WRAPPER (incorporating image_3fb6bd.jpg ornamentation layout on the LEFT) -->
+    <!-- INNER PAGES LAYOUT TEMPLATE WRAPPER -->
     
     <!-- PAGE: ABOUT -->
     <section class="page-section hidden animate-fade-in" id="page-about">
@@ -666,7 +667,6 @@
               height="152" 
               frameborder="0" 
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-              referrerpolicy="strict-origin-when-cross-origin"
               loading="lazy">
             </iframe>
           </div>
@@ -684,7 +684,7 @@
     <!-- PAGE: VIDEOS -->
     <section class="page-section hidden animate-fade-in" id="page-videos">
       <div class="grid lg:grid-cols-12 gap-8 items-start">
-        <!-- Ornamentation Column on the Left (Reversed matching request) -->
+        <!-- Ornamentation Column on the Left -->
         <div class="hidden lg:col-span-1 lg:flex flex-col items-center justify-start h-full pt-12 relative min-h-[300px]">
           <div class="w-[2px] bg-magma-border dark:bg-obsidian-border absolute top-0 bottom-0"></div>
           <div class="w-8 h-8 rounded-lg bg-orange-600 dark:bg-orange-500 flex items-center justify-center text-white rhombus-node shadow-lg relative z-10 transform rotate-45 border-2 border-white dark:border-obsidian hover:scale-110 cursor-pointer">
@@ -720,12 +720,7 @@
             <!-- Video 1 -->
             <div class="rounded-2xl overflow-hidden border border-magma-border dark:border-obsidian-border bg-magma dark:bg-obsidian shadow-lg group flex flex-col justify-between">
               <div class="relative aspect-video bg-black shrink-0">
-                <iframe 
-                  src="https://www.youtube-nocookie.com/embed/vemVK2ryAaw?rel=0" 
-                  class="absolute inset-0 w-full h-full border-none" 
-                  allowfullscreen 
-                  referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+                <iframe src="https://www.youtube.com/embed/vemVK2ryAaw" class="absolute inset-0 w-full h-full border-none" allowfullscreen></iframe>
               </div>
               <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
@@ -739,12 +734,7 @@
             <!-- Video 2 -->
             <div class="rounded-2xl overflow-hidden border border-magma-border dark:border-obsidian-border bg-magma dark:bg-obsidian shadow-lg group flex flex-col justify-between">
               <div class="relative aspect-video bg-black shrink-0">
-                <iframe 
-                  src="https://www.youtube-nocookie.com/embed/zdNZ7qLzu58?rel=0" 
-                  class="absolute inset-0 w-full h-full border-none" 
-                  allowfullscreen 
-                  referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+                <iframe src="https://www.youtube.com/embed/zdNZ7qLzu58" class="absolute inset-0 w-full h-full border-none" allowfullscreen></iframe>
               </div>
               <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
@@ -758,12 +748,7 @@
             <!-- Video 3 -->
             <div class="rounded-2xl overflow-hidden border border-magma-border dark:border-obsidian-border bg-magma dark:bg-obsidian shadow-lg group flex flex-col justify-between">
               <div class="relative aspect-video bg-black shrink-0">
-                <iframe 
-                  src="https://www.youtube-nocookie.com/embed/cCtaBBQoq2I?rel=0" 
-                  class="absolute inset-0 w-full h-full border-none" 
-                  allowfullscreen 
-                  referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+                <iframe src="https://www.youtube.com/embed/cCtaBBQoq2I" class="absolute inset-0 w-full h-full border-none" allowfullscreen></iframe>
               </div>
               <div class="p-4 flex-grow flex flex-col justify-between">
                 <div>
@@ -1046,7 +1031,7 @@
       }
     ];
 
-    // Live Spotify Tracklist Configuration Matrix (updated with exact share link IDs)
+    // Live Spotify Tracklist Configuration Matrix
     const SPOTIFY_ALBUMS = [
       { id: "2qxmye6gAegTMjLKEBoR3d", title: "Let Me Down Slowly", artist: "Alec Benjamin" },
       { id: "0mL7jKqLliIYtbEOyBlIhJ", title: "Victory", artist: "Two Steps From Hell" },
@@ -1065,8 +1050,11 @@
       // Navigate to initial default view
       navigateToPage("home");
 
-      // Initialize the responsive Canvas particles background
+      // Initialize the responsive background particles simulation
       initVolcanoCanvasEngine();
+
+      // Initialize the live burning fire simulation layered on the portrait picture
+      initPortraitFireSimulation();
 
       // Trigger Lucide Icons Rendering
       lucide.createIcons();
@@ -1180,7 +1168,7 @@
       lucide.createIcons();
     }
 
-    // Dynamic HTML5 Volcano Particles Canvas Simulation
+    // Dynamic HTML5 Volcano Background Particles Simulation
     function initVolcanoCanvasEngine() {
       const canvas = document.getElementById("volcanoCanvas");
       const ctx = canvas.getContext("2d");
@@ -1201,7 +1189,6 @@
       const particlePool = [];
       const totalParticles = 40;
 
-      // Construct Particle Constructor Blueprint
       class VolcanicEmber {
         constructor() {
           this.reset();
@@ -1237,12 +1224,10 @@
         }
       }
 
-      // Populate Array pool
       for (let i = 0; i < totalParticles; i++) {
         particlePool.push(new VolcanicEmber());
       }
 
-      // Frame Animation Run Loop
       function runEmberSimulation() {
         ctx.clearRect(0, 0, width, height);
 
@@ -1255,6 +1240,160 @@
       }
 
       runEmberSimulation();
+    }
+
+    // Dynamic Portrait Burning Fire Canvas Simulation Engine
+    function initPortraitFireSimulation() {
+      const canvas = document.getElementById("portraitFireCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+
+      let width = canvas.offsetWidth || 300;
+      let height = canvas.offsetHeight || 300;
+      canvas.width = width;
+      canvas.height = height;
+
+      // Observe size changes dynamically for fluid desktop/mobile responsiveness
+      const resizeObserver = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          width = entry.contentRect.width || canvas.offsetWidth;
+          height = entry.contentRect.height || canvas.offsetHeight;
+          canvas.width = width;
+          canvas.height = height;
+        }
+      });
+      resizeObserver.observe(canvas);
+
+      const fireParticles = [];
+      const sparks = [];
+      
+      // Interactive Flame Multipliers when hovered
+      let intensityMultiplier = 1.0;
+      const hoverContainer = document.getElementById("portraitFlameContainer");
+      if (hoverContainer) {
+        hoverContainer.addEventListener("mouseenter", () => {
+          intensityMultiplier = 2.4; // Fire violently flares up on hover!
+        });
+        hoverContainer.addEventListener("mouseleave", () => {
+          intensityMultiplier = 1.0; // Restores to normal calm fire glow
+        });
+      }
+
+      // Fire Flame Particle Constructor Blueprint
+      class FireParticle {
+        constructor() {
+          this.reset();
+          // Spread initial heights randomly so they don't all burst out at once
+          this.y = Math.random() * height * 0.95;
+        }
+        reset() {
+          // Spawn near the bottom base of the circular portrait picture
+          this.x = width / 2 + (Math.random() - 0.5) * (width * 0.7);
+          this.y = height * 0.88 + (Math.random() - 0.5) * 10;
+          this.size = Math.random() * 14 + 6;
+          this.maxLife = Math.random() * 35 + 20;
+          this.life = this.maxLife;
+          this.speedX = (Math.random() - 0.5) * 1.5;
+          // Upward velocity increases with intensity hover multipliers
+          this.speedY = -(Math.random() * 1.8 + 1.2) * (intensityMultiplier * 0.8 + 0.2);
+          
+          // Select colors: transition from bright white-yellow core to orange-red tips
+          this.r = 255;
+          this.g = Math.floor(Math.random() * 90) + 60; // hot orange core
+          this.b = 0;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.life -= 1;
+
+          const lifePercent = this.life / this.maxLife;
+          this.g = Math.floor(lifePercent * 180); // Transition flame color to deeper red
+          this.size = lifePercent * (15 * (intensityMultiplier * 0.3 + 0.7)); // Scale fire particle down
+
+          if (this.life <= 0 || this.size <= 0.5) {
+            this.reset();
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          const radialGrad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
+          const alpha = (this.life / this.maxLife) * 0.7;
+          radialGrad.addColorStop(0, `rgba(${this.r}, ${this.g}, ${this.b}, ${alpha})`);
+          radialGrad.addColorStop(0.4, `rgba(240, 70, 0, ${alpha * 0.5})`);
+          radialGrad.addColorStop(1, `rgba(180, 0, 0, 0)`);
+          
+          ctx.fillStyle = radialGrad;
+          ctx.arc(this.x, this.y, this.size * 1.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Spark/Ember Particle Blueprint
+      class FireSpark {
+        constructor() {
+          this.reset();
+          this.y = Math.random() * height * 0.8;
+        }
+        reset() {
+          this.x = width / 2 + (Math.random() - 0.5) * (width * 0.85);
+          this.y = height * 0.82;
+          this.size = Math.random() * 2 + 0.8;
+          this.life = Math.random() * 50 + 20;
+          this.maxLife = this.life;
+          this.speedX = (Math.random() - 0.5) * 2.2;
+          this.speedY = -(Math.random() * 3.5 + 2) * (intensityMultiplier * 0.7 + 0.3);
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.life--;
+
+          if (this.life <= 0) {
+            this.reset();
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          const alpha = this.life / this.maxLife;
+          ctx.fillStyle = `rgba(255, ${Math.floor(Math.random() * 120) + 100}, 0, ${alpha})`;
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Seed the fire rendering pools
+      for (let i = 0; i < 45; i++) {
+        fireParticles.push(new FireParticle());
+      }
+      for (let i = 0; i < 25; i++) {
+        sparks.push(new FireSpark());
+      }
+
+      // Simulation Frame Looping Function
+      function drawFireSimulationFrame() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Utilize screen blending for photorealistic bright burning embers look
+        ctx.globalCompositeOperation = "screen";
+
+        // Update & Render Flames
+        fireParticles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+
+        // Update & Render Flying Sparks
+        sparks.forEach(s => {
+          s.update();
+          s.draw();
+        });
+
+        requestAnimationFrame(drawFireSimulationFrame);
+      }
+
+      // Start the dynamic fire simulation
+      drawFireSimulationFrame();
     }
 
     // Render Blog Listing Cards
@@ -1335,7 +1474,6 @@
       const activeText = document.getElementById("nowPlayingText");
 
       frame.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
-      frame.referrerPolicy = "strict-origin-when-cross-origin";
       activeText.textContent = `${title} — ${artist}`;
 
       // Highlight Active Selector
@@ -1366,7 +1504,6 @@
 
       errBox.classList.add("hidden");
 
-      // Mock delay transition
       setTimeout(() => {
         document.getElementById("contactFormFields").classList.add("hidden");
         document.getElementById("contactFormSuccess").classList.remove("hidden");
@@ -1381,7 +1518,7 @@
       document.getElementById("contactFormSuccess").classList.add("hidden");
     }
 
-    // Clipboard Copy Helper - Using standard copy methodologies safely
+    // Clipboard Copy Helper
     function copyEmailToClipboard() {
       const textToCopy = "abdul.hamid.khan.100100@gmail.com";
       const dummy = document.createElement("textarea");
@@ -1429,7 +1566,6 @@
         container.innerHTML = `<img src="${type}" class="w-full h-full object-contain" />`;
         desc.textContent = "Google Drive high-resolution render asset.";
       } else {
-        // Render rich graphical representations based on item category
         if (type === 'GEN_AI') {
           container.innerHTML = `
             <div class="flex flex-col items-center justify-center p-8 bg-neutral-900 w-full h-full text-center">
@@ -1473,7 +1609,6 @@
       setTimeout(() => lightbox.classList.remove("opacity-0"), 50);
     }
 
-    // Close Lightbox Window
     function closeLightbox() {
       const lightbox = document.getElementById("immersiveLightbox");
       lightbox.classList.add("opacity-0");
